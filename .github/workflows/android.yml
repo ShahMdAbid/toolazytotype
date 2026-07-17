@@ -1,0 +1,36 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Build with Gradle
+      run: |
+        # Use local wrapper if it exists, otherwise fallback to global gradle installed on GitHub servers
+        if [ -f gradlew ]; then
+          chmod +x gradlew
+          ./gradlew assembleDebug
+        else
+          gradle assembleDebug
+        fi
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: remote-typer-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
