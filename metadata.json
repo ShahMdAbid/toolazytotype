@@ -1,0 +1,6 @@
+{
+  "name": "Remote Typer",
+  "description": "Send text from your mobile device to your laptop.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
